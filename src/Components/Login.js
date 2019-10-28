@@ -34,7 +34,7 @@ class Login extends Component {
         .then(res => {
           console.log(res.data);
           localStorage.setItem("jwt", res.data.token);
-          this.props.history.push("/protected");
+          this.props.history.push("/dashboard");
           // this.setState({ message: res.data.message, flag: true });
 
           // localStorage.setItem("token", res.data.token);
@@ -42,7 +42,7 @@ class Login extends Component {
         })
         .catch(error => {
           // this.setState({ message: error.response.data.message, flag: false });
-          console.log(error.response.data.message);
+          console.log("Error: ", error.response.data.message);
         });
     } else {
       console.log("Fill all fields");
