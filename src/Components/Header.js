@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -6,19 +7,14 @@ const Header = () => {
       <div className="container">
         <h1 className="navbar-brand">Campus Recruitment System</h1>
         <form className="nav navbar-nav navbar-right form-inline my-2 my-lg-0">
-          <button
-            className="btn btn-outline-success my-2 my-sm-0"
-            type="submit"
-          >
+          <Link to="/register" className="btn btn-outline-success my-2 my-sm-0">
+            {" "}
             Sign Up
-          </button>
-
-          <button
-            className="btn btn-outline-success my-2 my-sm-0"
-            type="submit"
-          >
-            Login
-          </button>
+          </Link>
+          <Link to="/login" className="btn btn-outline-success my-2 my-sm-0">
+            {" "}
+            Log In
+          </Link>
         </form>
       </div>
     </nav>
