@@ -6,10 +6,10 @@ import Register from "./Components/Register";
 import Login from "./Components/Login";
 import Home from "./screens/Home";
 import AuthComponent from "./Components/AuthComponent";
-import Protected from "./Components/Protected";
+import Dashboard from "./Components/Dashboard";
 
 class App extends React.Component {
-  state = {};
+  state = { isLoggedIn: false };
   // componentDidMount() {
   //   fetch("http://localhost:5000/api/v1/student/get-students/")
   //     .then(res => res.json())
@@ -24,9 +24,13 @@ class App extends React.Component {
             <Route path="/" exact component={Home}></Route>
             <Route path="/register" exact component={Register} />
             <Route path="/login" exact component={Login} />
-            <AuthComponent>
-              <Route path="/protected" exact component={Protected} />
-            </AuthComponent>
+            <AuthComponent
+              exact
+              // isLoggedIn={isLoggedIn}
+              path="/dashboard"
+              component={Dashboard}
+            />
+            {/* <Route path="/dashboard" exact component={Dashboard} /> */}
           </Switch>
         </Router>
       </div>
