@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import Alert from "./Alert";
 
-class SignUp extends Component {
+class Register extends Component {
   state = {
     email: "",
     password: "",
@@ -50,7 +50,7 @@ class SignUp extends Component {
   render() {
     return (
       <div>
-        <h1>Sign up</h1>
+        <h1>Registration Form</h1>
         {this.state.message ? (
           <Alert
             message={this.state.message}
@@ -83,4 +83,4 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+export default Register;
