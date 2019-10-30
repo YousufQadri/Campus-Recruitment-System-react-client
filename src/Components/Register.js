@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Alert from "./Alert";
+// import Alert from "./Alert";
 
 class Register extends Component {
   state = {
@@ -51,12 +51,12 @@ class Register extends Component {
     return (
       <div>
         <h1>Registration Form</h1>
-        {this.state.message ? (
+        {/* {this.state.message ? (
           <Alert
             message={this.state.message}
             color={this.state.flag ? "green" : "red"}
           />
-        ) : null}
+        ) : null} */}
         <form onSubmit={this.formSubmit}>
           <label>Email</label>
           <input

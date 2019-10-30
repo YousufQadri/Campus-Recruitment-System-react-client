@@ -1,9 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
-import { getJWT } from "../helpers/jwt";
-
-const token = getJWT();
 
 const Header = props => {
   const logUserOut = () => {
@@ -17,7 +14,7 @@ const Header = props => {
       <div className="container">
         <h1 className="navbar-brand">Campus Recruitment System</h1>
         <form className="nav navbar-nav navbar-right form-inline my-2 my-lg-0">
-          {!token ? (
+          {!props.token ? (
             <div>
               <Link
                 to="/register"

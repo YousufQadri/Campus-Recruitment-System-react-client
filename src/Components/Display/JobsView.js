@@ -1,7 +1,8 @@
 import React from "react";
-import Modal from "../Modal";
+import ApplyModal from "../ApplyModal";
+import CreateModal from "../CreateModal";
 
-const JobsView = ({ job }) => {
+const JobsView = ({ job, applyModal, createModal }) => {
   return (
     <div className="col-sm-6 col-md-4 col-lg-4">
       <div className="card bg-light mb-3" style={{ maxWidth: "18rem" }}>
@@ -10,8 +11,7 @@ const JobsView = ({ job }) => {
         </div>
         <div className="card-body">
           <h5 className="card-title">{job.description}</h5>
-          {/* <p className="card-text">Website: {website}</p> */}
-          <Modal label="Apply now" job={job} />
+          {applyModal ? <ApplyModal label="Apply now" job={job} /> : null}
         </div>
       </div>
     </div>

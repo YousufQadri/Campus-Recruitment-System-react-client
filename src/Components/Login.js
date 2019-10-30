@@ -52,10 +52,8 @@ class Login extends Component {
           this.setState({ message: res.data.message, flag: true });
           localStorage.setItem("jwt", res.data.token);
           setTimeout(() => {
-            this.props.history.push("/dashboard");
+            this.props.history.push("/student-dashboard");
           }, 2000);
-
-          // console.log(res.data);
         })
         .catch(error => {
           this.setState({ message: error.response.data.message, flag: false });
@@ -77,12 +75,11 @@ class Login extends Component {
         })
         .then(res => {
           console.log(res.data);
-          // localStorage.setItem("jwt", res.data.token);
-          // this.props.history.push("/dashboard");
           this.setState({ message: res.data.message, flag: true });
-
-          // localStorage.setItem("token", res.data.token);
-          // console.log(res.data);
+          localStorage.setItem("jwt", res.data.token);
+          setTimeout(() => {
+            this.props.history.push("/company-dashboard");
+          }, 2000);
         })
         .catch(error => {
           this.setState({ message: error.response.data.message, flag: false });

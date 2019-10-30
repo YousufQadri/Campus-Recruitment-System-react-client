@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProfileView = ({ profile }) => {
+const StudentProfileView = ({ profile }) => {
   return (
     <div className="col-sm-6 col-md-12 col-lg-12">
       <div className="card mb-3 border-primary">
@@ -23,4 +23,4 @@ const ProfileView = ({ profile }) => {
   );
 };
 
-export default ProfileView;
+export default StudentProfileView;

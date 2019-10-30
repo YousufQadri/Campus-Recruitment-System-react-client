@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import { getJWT } from "../../helpers/jwt";
 import axios from "axios";
-import CompaniesView from "../Display/CompaniesView";
 import JobsView from "../Display/JobsView";
-import StudentProfileView from "../Display/StudentProfileView";
+import CompanyProfileView from "../Display/CompanyProfileView";
+import StudentsView from "../Display/StudentsView";
+import JobApplicantView from "../Display/JobAppicantView";
+import CreateModal from "../CreateModal";
 
-class StudentDashboard extends Component {
+class CompanyDashboard extends Component {
   state = {
-    companies: [],
-    jobs: [],
-    appliedJobs: [],
+    students: [],
+    companyJobs: [],
+    applicants: [],
     profile: [],
     selectedMenu: "Profile",
     isLoading: false
@@ -21,14 +23,14 @@ class StudentDashboard extends Component {
       this.setState({ isLoading: true });
       // Fetch companies API
       axios
-        .get("http://localhost:5000/api/v1/student/get-profile/", {
+        .get("http://localhost:5000/api/v1/company/get-profile/", {
           headers: {
             "x-auth-token": `${jwt}`
           }
         })
         .then(res => {
-          console.log("Student: ", res.data.student[0]);
-          this.setState({ profile: res.data.student[0] });
+          console.log("Company: ", res.data.company[0]);
+          this.setState({ profile: res.data.company[0] });
         })
         .catch(error => console.log("Error: ", error.response.data));
       this.fetchData();
@@ -40,7 +42,7 @@ class StudentDashboard extends Component {
     const jwt = getJWT();
     if (jwt) {
       axios
-        .get("http://localhost:5000/api/v1/student/get-data/", {
+        .get("http://localhost:5000/api/v1/company/get-data/", {
           headers: {
             "x-auth-token": `${jwt}`
           }
@@ -48,9 +50,9 @@ class StudentDashboard extends Component {
         .then(res => {
           console.log("Companies: ", res.data);
           this.setState({
-            companies: res.data.companies,
-            jobs: res.data.allJobs,
-            appliedJobs: res.data.appliedJobs
+            students: res.data.allStudents,
+            companyJobs: res.data.companyJobs,
+            applicants: res.data.applicants
           });
         })
         .catch(error => console.log("Error: ", error.response.data));
@@ -63,7 +65,7 @@ class StudentDashboard extends Component {
     }
     return (
       <React.Fragment>
-        <h1 className="mt-5 font-weight-bold">Student Portal</h1>
+        <h1 className="mt-5 font-weight-bold">Company Dashboard</h1>
         <div className="container mt-5">
           <div className="row">
             <div className="col-sm-12 col-md-3">
@@ -76,19 +78,19 @@ class StudentDashboard extends Component {
                   className="list-group-item d-flex justify-content-between list-group-item-action active`"
                   onClick={() => this.setState({ selectedMenu: "Profile" })}
                 >
-                  Profile
+                  Company Profile
                 </li>
                 <li
                   className="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
                   onClick={() => {
                     this.fetchData();
-                    this.setState({ selectedMenu: "Companies" });
+                    this.setState({ selectedMenu: "Students" });
                   }}
                   // this.setState({ selectedMenu: "Companies" })
                 >
-                  Companies
+                  Students
                   <span className="badge badge-primary badge-pill">
-                    {this.state.companies.length}
+                    {this.state.students.length}
                   </span>
                 </li>
                 <li
@@ -98,22 +100,31 @@ class StudentDashboard extends Component {
                     this.setState({ selectedMenu: "Jobs" });
                   }}
                 >
-                  Jobs
+                  Current Jobs
                   <span className="badge badge-primary badge-pill">
-                    {this.state.jobs.length}
+                    {this.state.companyJobs.length}
                   </span>
                 </li>
                 <li
                   className="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
                   onClick={() => {
                     this.fetchData();
-                    this.setState({ selectedMenu: "AppliedJobs" });
+                    this.setState({ selectedMenu: "Applicants" });
                   }}
                 >
-                  Applied Jobs
+                  Applicants
                   <span className="badge badge-primary badge-pill">
-                    {this.state.appliedJobs.length}
+                    {this.state.applicants.length}
                   </span>
+                </li>
+                <li
+                  className="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+                  onClick={() => {
+                    this.fetchData();
+                    this.setState({ selectedMenu: "CreateJob" });
+                  }}
+                >
+                  Create Job Post
                 </li>
               </ul>
             </div>
@@ -124,43 +135,35 @@ class StudentDashboard extends Component {
             <div className="col-sm-12 col-md-9">
               <div className="row">
                 {this.state.selectedMenu === "Profile" && (
-                  <StudentProfileView profile={this.state.profile} />
+                  <CompanyProfileView profile={this.state.profile} />
                 )}
-                {this.state.selectedMenu === "Companies" &&
-                  this.state.companies.map(company => (
-                    <CompaniesView key={company._id} company={company} />
+                {this.state.selectedMenu === "Students" &&
+                  this.state.students.map(student => (
+                    <StudentsView key={student._id} student={student} />
                   ))}
                 {this.state.selectedMenu === "Jobs" &&
-                  this.state.jobs.map(job => (
-                    <JobsView key={job._id} job={job} applyModal={true} />
+                  this.state.companyJobs.map(job => (
+                    <JobsView key={job._id} job={job} applyModal={false} />
                   ))}
-                {this.state.selectedMenu === "AppliedJobs" &&
-                  (this.state.appliedJobs.length === 1 ? (
-                    <JobsView
-                      key={this.state.appliedJobs._id}
-                      job={this.state.appliedJobs}
-                      applyModal={true}
+                {this.state.selectedMenu === "Applicants" &&
+                  (this.state.applicants.length === 1 ? (
+                    <JobApplicantView
+                      key={this.state.applicants._id}
+                      applicant={this.state.applicants[0]}
+                      applyModal={false}
                     />
                   ) : (
-                    this.state.appliedJobs.map(apjob => (
-                      <JobsView key={apjob._id} job={apjob} />
+                    this.state.applicants.map(applicant => (
+                      <JobApplicantView
+                        key={applicant._id}
+                        applicant={applicant}
+                      />
                     ))
                   ))}
+                {this.state.selectedMenu === "CreateJob" && (
+                  <CreateModal profile={this.state.profile} />
+                )}
               </div>
-
-              {/* {this.state.selectedMenu === "Profile" ? (
-                  
-                ) : (
-                  
-                  this.state.jobs.map(job => (
-                    <JobsView
-                      key={job._id}
-                      title={job.title}
-                      desc={job.description}
-                      // website={job.website}
-                    />
-                  ))
-                )} */}
             </div>
           </div>
         </div>
@@ -169,4 +172,4 @@ class StudentDashboard extends Component {
   }
 }
 
-export default StudentDashboard;
+export default CompanyDashboard;

@@ -2,18 +2,13 @@ import React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { getJWT } from "../helpers/jwt";
 import axios from "axios";
-import { thisExpression } from "@babel/types";
 
-class MyModal extends React.Component {
+class ApplyModal extends React.Component {
   state = {
     modal: false,
     skills: "",
     experience: ""
   };
-  // const {
-  //   buttonLabel,
-  //   className
-  // } = props;
 
   onChange = e => {
     this.setState({
@@ -104,4 +99,4 @@ class MyModal extends React.Component {
   }
 }
 
-export default MyModal;
+export default ApplyModal;
