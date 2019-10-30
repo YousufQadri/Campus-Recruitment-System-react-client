@@ -12,10 +12,7 @@ const JobApplicantView = ({ applicant }) => {
     // <JobCollapse title={applicant.jobId.jobTitle} />
     <div className="col-sm-6">
       <div className="list-group">
-        <a
-          href="#"
-          className="list-group-item list-group-item-action flex-column align-items-start"
-        >
+        <div className="list-group-item list-group-item-action flex-column align-items-start">
           <div className="d-flex w-100 justify-content-between">
             <h4 className="mb-1">
               <strong>Job:</strong> {applicant.jobId.jobTitle}
@@ -32,7 +29,7 @@ const JobApplicantView = ({ applicant }) => {
               {applicant.studentId.qualification}
             </p>
           </div>
-        </a>
+        </div>
       </div>
     </div>
   );

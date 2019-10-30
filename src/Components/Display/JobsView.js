@@ -1,8 +1,7 @@
 import React from "react";
 import ApplyModal from "../ApplyModal";
-import CreateModal from "../CreateModal";
 
-const JobsView = ({ job, applyModal, createModal }) => {
+const JobsView = ({ job, applyModal }) => {
   return (
     <div className="col-sm-6 col-md-4 col-lg-4">
       <div className="card bg-light mb-3" style={{ maxWidth: "18rem" }}>

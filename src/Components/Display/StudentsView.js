@@ -6,7 +6,7 @@ const StudentsView = ({ student }) => {
     <div className="col-sm-12 col-md-6 col-lg-4">
       <div className="card bg-light mb-3 border-info">
         <div className="card-header">
-          <img src={user} alt="user-image" width={170} />
+          <img src={user} alt="" width={170} />
           <h3>{student.studentName}</h3>
         </div>
         <div className="card-body">
