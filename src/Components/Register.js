@@ -60,7 +60,7 @@ class Register extends Component {
     e.preventDefault();
     let { studentName, email, password, qualification, cgpa } = this.state;
 
-    if (email && password) {
+    if (studentName && email && password && qualification && cgpa) {
       axios
         .post("http://localhost:5000/api/v1/student/register", {
           studentName,
@@ -78,12 +78,8 @@ class Register extends Component {
             email: "",
             password: "",
             qualification: "",
-            cgpa: ""
+            cgpa: undefined
           });
-          // localStorage.setItem("jwt", res.data.token);
-          // setTimeout(() => {
-          //   this.props.history.push("/student-dashboard");
-          // }, 2000);
         })
         .catch(error => {
           this.setState({ message: error.response.data.message, flag: false });
@@ -95,21 +91,44 @@ class Register extends Component {
   };
   companyFormSubmit = e => {
     e.preventDefault();
-    let { email, password } = this.state;
+    let {
+      companyName,
+      email,
+      password,
+      description,
+      contactNo,
+      website
+    } = this.state;
 
-    if (email && password) {
+    if (
+      companyName &&
+      email &&
+      password &&
+      description &&
+      contactNo &&
+      website
+    ) {
       axios
-        .post("http://localhost:5000/api/v1/company/login", {
+        .post("http://localhost:5000/api/v1/company/register", {
+          companyName,
           email,
-          password
+          password,
+          description,
+          contactNo,
+          website
         })
         .then(res => {
           console.log(res.data);
-          this.setState({ message: res.data.message, flag: true });
-          localStorage.setItem("jwt", res.data.token);
-          setTimeout(() => {
-            this.props.history.push("/company-dashboard");
-          }, 2000);
+          this.setState({
+            message: res.data.message,
+            flag: true,
+            companyName: "",
+            email: "",
+            password: "",
+            description: "",
+            contactNo: undefined,
+            website: ""
+          });
         })
         .catch(error => {
           this.setState({ message: error.response.data.message, flag: false });
@@ -227,7 +246,7 @@ class Register extends Component {
                   type="text"
                   name="companyName"
                   placeholder="Enter Company name"
-                  value={this.state.companyFormSubmit}
+                  value={this.state.companyName}
                   onChange={this.onChange}
                   required
                 />
