@@ -1,13 +1,33 @@
 import React, { Component } from "react";
 import axios from "axios";
-// import Alert from "./Alert";
+import {
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Button,
+  Alert
+} from "reactstrap";
 
 class Register extends Component {
   state = {
+    studentName: "",
+    companyName: "",
     email: "",
     password: "",
+    description: "",
+    contactNo: undefined,
+    website: "",
+    qualification: "",
+    cgpa: undefined,
     message: "",
-    flag: false
+    flag: false,
+    activeTab: 1
   };
 
   componentDidUpdate() {
@@ -20,27 +40,80 @@ class Register extends Component {
     });
   };
 
-  formSubmit = e => {
+  toggle = tab => {
+    if (this.state.activeTab !== tab)
+      this.setState({
+        activeTab: tab,
+        studentName: "",
+        companyName: "",
+        email: "",
+        password: "",
+        description: "",
+        contactNo: undefined,
+        website: "",
+        qualification: "",
+        cgpa: undefined
+      });
+  };
+
+  studentFormSubmit = e => {
+    e.preventDefault();
+    let { studentName, email, password, qualification, cgpa } = this.state;
+
+    if (email && password) {
+      axios
+        .post("http://localhost:5000/api/v1/student/register", {
+          studentName,
+          email,
+          password,
+          qualification,
+          cgpa
+        })
+        .then(res => {
+          console.log(res.data);
+          this.setState({
+            message: res.data.message,
+            flag: true,
+            studentName: "",
+            email: "",
+            password: "",
+            qualification: "",
+            cgpa: ""
+          });
+          // localStorage.setItem("jwt", res.data.token);
+          // setTimeout(() => {
+          //   this.props.history.push("/student-dashboard");
+          // }, 2000);
+        })
+        .catch(error => {
+          this.setState({ message: error.response.data.message, flag: false });
+          console.log("Error: ", error.response.data.message);
+        });
+    } else {
+      console.log("Fill all fields");
+    }
+  };
+  companyFormSubmit = e => {
     e.preventDefault();
     let { email, password } = this.state;
 
     if (email && password) {
       axios
-        .post("http://localhost:5000/api/v1/user/register", {
-          email: email,
-          password: password,
-          type: "Student"
+        .post("http://localhost:5000/api/v1/company/login", {
+          email,
+          password
         })
         .then(res => {
-          console.log(res.data.message);
+          console.log(res.data);
           this.setState({ message: res.data.message, flag: true });
-
-          // localStorage.setItem("token", res.data.token);
-          // console.log(res.data);
+          localStorage.setItem("jwt", res.data.token);
+          setTimeout(() => {
+            this.props.history.push("/company-dashboard");
+          }, 2000);
         })
         .catch(error => {
           this.setState({ message: error.response.data.message, flag: false });
-          console.log(error.response.data.message);
+          console.log("Error: ", error.response.data.message);
         });
     } else {
       console.log("Fill all fields");
@@ -49,35 +122,182 @@ class Register extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Registration Form</h1>
-        {/* {this.state.message ? (
-          <Alert
-            message={this.state.message}
-            color={this.state.flag ? "green" : "red"}
-          />
-        ) : null} */}
-        <form onSubmit={this.formSubmit}>
-          <label>Email</label>
-          <input
-            type="email"
-            placeholder="Email"
-            onChange={this.onChange}
-            name="email"
-            value={this.state.email}
-            required
-          />
-          <label>Password</label>
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={this.onChange}
-            name="password"
-            value={this.state.password}
-            required
-          />
-          <button type="submit">Submit</button>
-        </form>
+      <div className="container">
+        <h1 className="my-5">Registration Form</h1>
+        {this.state.message ? (
+          <Alert color={this.state.flag ? "success" : "danger"}>
+            {this.state.message}
+          </Alert>
+        ) : null}
+        <Nav tabs fill className="mb-3">
+          <NavItem>
+            <NavLink
+              onClick={() => {
+                this.toggle("1");
+              }}
+            >
+              Student
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              onClick={() => {
+                this.toggle("2");
+              }}
+            >
+              Company
+            </NavLink>
+          </NavItem>
+        </Nav>
+        <TabContent activeTab={this.state.activeTab}>
+          <TabPane tabId="1">
+            <Form onSubmit={e => this.studentFormSubmit(e)}>
+              <h4>Student Registration</h4>
+              <FormGroup>
+                <Label>Full Name</Label>
+                <Input
+                  type="text"
+                  name="studentName"
+                  placeholder="Enter your full name"
+                  value={this.state.studentName}
+                  onChange={this.onChange}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label>Email</Label>
+                <Input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  value={this.state.email}
+                  onChange={this.onChange}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label>Password</Label>
+                <Input
+                  type="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  value={this.state.password}
+                  onChange={this.onChange}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label>Qualification</Label>
+                <Input
+                  type="text"
+                  name="qualification"
+                  placeholder="Enter your qualification"
+                  value={this.state.qualification}
+                  onChange={this.onChange}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label>CGPA</Label>
+                <Input
+                  type="number"
+                  name="cgpa"
+                  placeholder="Enter your cgpa"
+                  value={this.state.cgpa}
+                  onChange={this.onChange}
+                  required
+                />
+              </FormGroup>
+              <Button
+                type="submit"
+                color="primary"
+                block
+                onClick={this.studentFormSubmit}
+              >
+                Submit
+              </Button>
+            </Form>
+          </TabPane>
+          <TabPane tabId="2">
+            <Form onSubmit={this.companyFormSubmit}>
+              <h4>Company Registration</h4>
+              <FormGroup>
+                <Label>Company Name</Label>
+                <Input
+                  type="text"
+                  name="companyName"
+                  placeholder="Enter Company name"
+                  value={this.state.companyFormSubmit}
+                  onChange={this.onChange}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label>Email</Label>
+                <Input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  value={this.state.email}
+                  onChange={this.onChange}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label>Password</Label>
+                <Input
+                  type="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  value={this.state.password}
+                  onChange={this.onChange}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label>Description</Label>
+                <Input
+                  type="text"
+                  name="description"
+                  placeholder="Enter Company description"
+                  value={this.state.description}
+                  onChange={this.onChange}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label>Contact Number</Label>
+                <Input
+                  type="number"
+                  name="contactNo"
+                  placeholder="Enter Contact no."
+                  value={this.state.contactNo}
+                  onChange={this.onChange}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label>Website</Label>
+                <Input
+                  type="text"
+                  name="website"
+                  placeholder="Enter Website URL  "
+                  value={this.state.website}
+                  onChange={this.onChange}
+                  required
+                />
+              </FormGroup>
+              <Button
+                type="submit"
+                color="primary"
+                block
+                onClick={this.companyFormSubmit}
+              >
+                Submit
+              </Button>
+            </Form>
+          </TabPane>
+        </TabContent>
       </div>
     );
   }

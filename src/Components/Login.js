@@ -13,9 +13,6 @@ import {
   Button,
   Alert
 } from "reactstrap";
-// import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
-// import classnames from "classnames";
-// import Alert from "./Alert";
 
 class Login extends Component {
   state = {
