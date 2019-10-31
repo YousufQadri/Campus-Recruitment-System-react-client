@@ -18,15 +18,12 @@ const Header = props => {
             <div>
               <Link
                 to="/register"
-                className="btn btn-outline-success my-2 my-sm-0 mr-2"
+                className="btn btn-outline-success my-2 my-sm-0 mr-3"
               >
                 {" "}
                 Sign Up
               </Link>
-              <Link
-                to="/login"
-                className="btn btn-outline-success my-2 my-sm-0"
-              >
+              <Link to="/" className="btn btn-outline-success my-2 my-sm-0">
                 {" "}
                 Log In
               </Link>
