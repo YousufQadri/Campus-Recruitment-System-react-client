@@ -31,7 +31,7 @@ class Register extends Component {
   };
 
   componentDidUpdate() {
-    setTimeout(() => this.setState({ message: "" }), 7000);
+    setTimeout(() => this.setState({ message: "" }), 10000);
   }
 
   onChange = e => {
@@ -80,6 +80,7 @@ class Register extends Component {
             qualification: "",
             cgpa: undefined
           });
+          this.props.history.push("/");
         })
         .catch(error => {
           this.setState({ message: error.response.data.message, flag: false });
@@ -129,6 +130,7 @@ class Register extends Component {
             contactNo: undefined,
             website: ""
           });
+          this.props.history.push("/");
         })
         .catch(error => {
           this.setState({ message: error.response.data.message, flag: false });
@@ -144,7 +146,10 @@ class Register extends Component {
       <div className="container">
         <h1 className="my-5">Registration Form</h1>
         {this.state.message ? (
-          <Alert color={this.state.flag ? "success" : "danger"}>
+          <Alert
+            className="mb-4"
+            color={this.state.flag ? "success" : "danger"}
+          >
             {this.state.message}
           </Alert>
         ) : null}
