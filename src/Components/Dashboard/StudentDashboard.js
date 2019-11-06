@@ -4,6 +4,7 @@ import axios from "axios";
 import CompaniesView from "../Display/CompaniesView";
 import JobsView from "../Display/JobsView";
 import StudentProfileView from "../Display/StudentProfileView";
+import AppliedJobsView from "../Display/AppliedJobsView";
 
 import { connect } from "react-redux";
 import { loadUser } from "../../store/Actions/authActions";
@@ -140,31 +141,16 @@ class StudentDashboard extends Component {
                   ))}
                 {this.state.selectedMenu === "AppliedJobs" &&
                   (this.state.appliedJobs.length === 1 ? (
-                    <JobsView
+                    <AppliedJobsView
                       key={this.state.appliedJobs._id}
-                      job={this.state.appliedJobs}
-                      applyModal={true}
+                      job={this.state.appliedJobs[0]}
                     />
                   ) : (
                     this.state.appliedJobs.map(apjob => (
-                      <JobsView key={apjob._id} job={apjob} />
+                      <AppliedJobsView key={apjob._id} job={apjob} />
                     ))
                   ))}
               </div>
-
-              {/* {this.state.selectedMenu === "Profile" ? (
-                  
-                ) : (
-                  
-                  this.state.jobs.map(job => (
-                    <JobsView
-                      key={job._id}
-                      title={job.title}
-                      desc={job.description}
-                      // website={job.website}
-                    />
-                  ))
-                )} */}
             </div>
           </div>
         </div>
