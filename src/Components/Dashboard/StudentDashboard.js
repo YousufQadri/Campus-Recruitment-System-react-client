@@ -19,25 +19,25 @@ class StudentDashboard extends Component {
   };
 
   componentDidMount() {
-    this.props.loadUser();
-    // const jwt = getJWT();
-    // if (jwt) {
-    //   this.setState({ isLoading: true });
-    //   // Fetch companies API
-    //   axios
-    //     .get("http://localhost:5000/api/v1/student/get-profile/", {
-    //       headers: {
-    //         "x-auth-token": `${jwt}`
-    //       }
-    //     })
-    //     .then(res => {
-    //       console.log("Student: ", res.data.student[0]);
-    //       this.setState({ profile: res.data.student[0] });
-    //     })
-    //     .catch(error => console.log("Error: ", error.response.data));
-    //   this.fetchData();
-    //   this.setState({ isLoading: false });
-    // }
+    this.props.loadUser(this.props.history);
+    const jwt = getJWT();
+    if (jwt) {
+      this.setState({ isLoading: true });
+      // Fetch companies API
+      axios
+        .get("http://localhost:5000/api/v1/student/get-profile/", {
+          headers: {
+            "x-auth-token": `${jwt}`
+          }
+        })
+        .then(res => {
+          console.log("Student: ", res.data.student[0]);
+          this.setState({ profile: res.data.student[0] });
+        })
+        .catch(error => console.log("Error: ", error.response.data));
+      this.fetchData();
+      this.setState({ isLoading: false });
+    }
   }
 
   fetchData = () => {

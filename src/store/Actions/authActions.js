@@ -39,34 +39,45 @@ export const loadUser = () => (dispatch, getState) => {
     });
 };
 
-// Register User
-export const register = ({ name, email, password }) => dispatch => {
-  // Headers
-  const config = {
-    headers: {
-      "Content-Type": "application/json"
-    }
-  };
+// Student Register
+// export const studentRegister = (data, history) => dispatch => {
+//   dispatch({ type: USER_LOADING });
 
-  // Request body
-  const body = JSON.stringify({ name, email, password });
+//   // Request body
+//   // const body = { name, email, password, qualification, cgpa };
 
-  axios
-    .post("/api/users", body, config)
-    .then(res =>
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data
-      })
-    )
-    .catch(err => {
-      dispatch();
-      // returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
-      dispatch({
-        type: REGISTER_FAIL
-      });
-    });
-};
+//   axios
+//     .post("http://localhost:5000/api/v1/student/register", data)
+//     .then(res => {
+//       console.log(res.data);
+//       // dispatch({ type: CLEAR_ERRORS });
+//       dispatch({ type: REGISTER_SUCCESS });
+//       history.push("/");
+//     })
+//     .catch(error => {
+//       dispatch(
+//         returnErrors(error.response.data.message, error.response.data.success)
+//       );
+//       dispatch({ type: REGISTER_FAIL });
+//       console.log("Error: ", error.response);
+//     });
+
+//   // axios
+//   //   .post("/api/users", body, config)
+//   //   .then(res =>
+//   //     dispatch({
+//   //       type: REGISTER_SUCCESS,
+//   //       payload: res.data
+//   //     })
+//   //   )
+//   //   .catch(err => {
+//   //     dispatch();
+//   //     // returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
+//   //     dispatch({
+//   //       type: REGISTER_FAIL
+//   //     });
+//   //   });
+// };
 
 // Student Login
 export const studentLogin = ({ email, password }, history) => dispatch => {
