@@ -5,6 +5,9 @@ import CompaniesView from "../Display/CompaniesView";
 import JobsView from "../Display/JobsView";
 import StudentProfileView from "../Display/StudentProfileView";
 
+import { connect } from "react-redux";
+import { loadUser } from "../../store/Actions/authActions";
+
 class StudentDashboard extends Component {
   state = {
     companies: [],
@@ -16,24 +19,25 @@ class StudentDashboard extends Component {
   };
 
   componentDidMount() {
-    const jwt = getJWT();
-    if (jwt) {
-      this.setState({ isLoading: true });
-      // Fetch companies API
-      axios
-        .get("http://localhost:5000/api/v1/student/get-profile/", {
-          headers: {
-            "x-auth-token": `${jwt}`
-          }
-        })
-        .then(res => {
-          console.log("Student: ", res.data.student[0]);
-          this.setState({ profile: res.data.student[0] });
-        })
-        .catch(error => console.log("Error: ", error.response.data));
-      this.fetchData();
-      this.setState({ isLoading: false });
-    }
+    this.props.loadUser();
+    // const jwt = getJWT();
+    // if (jwt) {
+    //   this.setState({ isLoading: true });
+    //   // Fetch companies API
+    //   axios
+    //     .get("http://localhost:5000/api/v1/student/get-profile/", {
+    //       headers: {
+    //         "x-auth-token": `${jwt}`
+    //       }
+    //     })
+    //     .then(res => {
+    //       console.log("Student: ", res.data.student[0]);
+    //       this.setState({ profile: res.data.student[0] });
+    //     })
+    //     .catch(error => console.log("Error: ", error.response.data));
+    //   this.fetchData();
+    //   this.setState({ isLoading: false });
+    // }
   }
 
   fetchData = () => {
@@ -169,4 +173,11 @@ class StudentDashboard extends Component {
   }
 }
 
-export default StudentDashboard;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { loadUser }
+)(StudentDashboard);
