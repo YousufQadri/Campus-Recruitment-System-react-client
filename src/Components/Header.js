@@ -13,7 +13,6 @@ const Header = props => {
 
     props.history.push("/");
   };
-  console.log("header", props.auth.isAuthenticated);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
