@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { getJWT } from "../helpers/jwt";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 class ApplyModal extends React.Component {
   state = {
@@ -31,19 +32,31 @@ class ApplyModal extends React.Component {
         })
         .then(res => {
           console.log("Application: ", res.data);
-          //   this.setState({
-          //     companies: res.data.companies,
-          //     jobs: res.data.allJobs,
-          //     appliedJobs: res.data.appliedJobs
-          //   });
+          Swal.fire({
+            icon: "success",
+            title: "Applied",
+            text: res.data.message
+          });
+          this.toggle();
+          this.setState({ skills: "", experience: "" });
         })
-        .catch(error => console.log("Error: ", error.response.data));
+        .catch(error => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: error.response.data.message
+          });
+          this.toggle();
+          this.setState({ skills: "", experience: "" });
+          console.log("Error: ", error.response.data);
+        });
     } else {
       console.log("no token found");
     }
   };
 
   toggle = () => this.setState({ modal: !this.state.modal });
+
   render() {
     const { jobTitle, description } = this.props.job;
     return (
