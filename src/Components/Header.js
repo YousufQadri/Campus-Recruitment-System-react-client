@@ -2,19 +2,26 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 
+import { connect } from "react-redux";
+import { logout } from "../store/Actions/authActions";
+
 const Header = props => {
   const logUserOut = () => {
-    localStorage.removeItem("jwt");
+    // localStorage.removeItem("jwt");
     // console.log(props);
+    props.logout();
 
     props.history.push("/");
   };
+  console.log("header", props.auth.isAuthenticated);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
         <h1 className="navbar-brand">Campus Recruitment System</h1>
         <form className="nav navbar-nav navbar-right form-inline my-2 my-lg-0">
-          {!props.token ? (
+          {!props.auth.isAuthenticated ||
+          props.auth.isAuthenticated === null ? (
             <div>
               <Link
                 to="/register"
@@ -44,4 +51,11 @@ const Header = props => {
   );
 };
 
-export default withRouter(Header);
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { logout }
+)(withRouter(Header));
