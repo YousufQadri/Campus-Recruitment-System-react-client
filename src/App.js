@@ -9,36 +9,31 @@ import AuthComponent from "./Components/AuthComponent";
 import StudentDashboard from "./Components/Dashboard/StudentDashboard";
 import CompanyDashboard from "./Components/Dashboard/CompanyDashboard";
 
-import { Provider } from "react-redux";
-import store from "./store";
-
 class App extends React.Component {
   state = { isLoggedIn: false };
 
   render() {
     const token = getJWT();
     return (
-      <Provider store={store}>
-        <div className="App">
-          <Router>
-            <Header token={token} />
-            <Switch>
-              <Route path="/" exact component={Login}></Route>
-              <Route path="/register" exact component={Register} />
-              <AuthComponent
-                exact
-                path="/student-dashboard"
-                component={StudentDashboard}
-              />
-              <AuthComponent
-                exact
-                path="/company-dashboard"
-                component={CompanyDashboard}
-              />
-            </Switch>
-          </Router>
-        </div>
-      </Provider>
+      <div className="App">
+        <Router>
+          <Header token={token} />
+          <Switch>
+            <Route path="/" exact component={Login}></Route>
+            <Route path="/register" exact component={Register} />
+            <AuthComponent
+              exact
+              path="/student-dashboard"
+              component={StudentDashboard}
+            />
+            <AuthComponent
+              exact
+              path="/company-dashboard"
+              component={CompanyDashboard}
+            />
+          </Switch>
+        </Router>
+      </div>
     );
   }
 }
