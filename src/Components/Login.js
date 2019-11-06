@@ -47,6 +47,7 @@ class Login extends Component {
         password
       };
       this.props.studentLogin(data, this.props.history);
+      this.setState({ email: "", password: "" });
     } else {
       console.log("Fill all fields");
     }
@@ -76,10 +77,8 @@ class Login extends Component {
     return (
       <div className="Login">
         <h1 className="mb-5">Log in to your account</h1>
-        {this.state.message ? (
-          <Alert color={this.state.flag ? "success" : "danger"}>
-            {this.state.message}
-          </Alert>
+        {this.props.error.status === false ? (
+          <Alert color="danger">{this.props.error.msg}</Alert>
         ) : null}
         <Nav tabs fill className="mb-3">
           <NavItem>
@@ -181,7 +180,8 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  error: state.error
 });
 
 export default connect(
