@@ -14,6 +14,9 @@ import {
   Alert
 } from "reactstrap";
 
+import { connect } from "react-redux";
+import { studentLogin } from "../store/Actions/authActions";
+
 class Login extends Component {
   state = {
     email: "",
@@ -38,23 +41,30 @@ class Login extends Component {
     let { email, password } = this.state;
 
     if (email && password) {
-      axios
-        .post("http://localhost:5000/api/v1/student/login", {
-          email,
-          password
-        })
-        .then(res => {
-          console.log(res.data);
-          this.setState({ message: res.data.message, flag: true });
-          localStorage.setItem("jwt", res.data.token);
-          setTimeout(() => {
-            this.props.history.push("/student-dashboard");
-          }, 2000);
-        })
-        .catch(error => {
-          this.setState({ message: error.response.data.message, flag: false });
-          console.log("Error: ", error.response.data.message);
-        });
+      console.log("props: ", this.props);
+      let data = {
+        email,
+        password
+      };
+      this.props.studentLogin(data, this.props.history);
+
+      // axios
+      //   .post("http://localhost:5000/api/v1/student/login", {
+      //     email,
+      //     password
+      //   })
+      //   .then(res => {
+      //     console.log(res.data);
+      //     this.setState({ message: res.data.message, flag: true });
+      //     localStorage.setItem("jwt", res.data.token);
+      //     setTimeout(() => {
+      //       this.props.history.push("/student-dashboard");
+      //     }, 2000);
+      //   })
+      //   .catch(error => {
+      //     this.setState({ message: error.response.data.message, flag: false });
+      //     console.log("Error: ", error.response.data.message);
+      //   });
     } else {
       console.log("Fill all fields");
     }
@@ -199,4 +209,11 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { studentLogin }
+)(Login);

@@ -7,10 +7,10 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL
-} from "../Actions/";
+} from "../Actions/types";
 
 const initialState = {
-  token: localStorage.getItem("token"),
+  token: localStorage.getItem("jwt"),
   isAuthenticated: null,
   isLoading: false,
   user: null
@@ -32,10 +32,11 @@ export default function(state = initialState, action) {
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("jwt", action.payload.token);
       return {
         ...state,
-        ...action.payload,
+        token: action.payload.token,
+        user: action.payload,
         isAuthenticated: true,
         isLoading: false
       };
@@ -43,7 +44,7 @@ export default function(state = initialState, action) {
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
     case REGISTER_FAIL:
-      localStorage.removeItem("token");
+      localStorage.removeItem("jwt");
       return {
         ...state,
         token: null,
