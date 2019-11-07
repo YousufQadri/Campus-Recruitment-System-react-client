@@ -11,7 +11,7 @@ const AppliedJobsView = ({ job }) => {
         style={{ maxWidth: "18rem" }}
       >
         <div className="card-header">
-          <h4>Title:{job.jobId.jobTitle}</h4>
+          <h4>Title: {job.jobId.jobTitle}</h4>
         </div>
         <div className="card-body text-dark">
           <h5 className="card-title">

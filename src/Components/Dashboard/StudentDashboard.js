@@ -7,7 +7,9 @@ import StudentProfileView from "../Display/StudentProfileView";
 import AppliedJobsView from "../Display/AppliedJobsView";
 
 import { connect } from "react-redux";
-import { loadUser } from "../../store/Actions/authActions";
+import { loadUserStudent } from "../../store/Actions/authActions";
+
+import { Spinner } from "reactstrap";
 
 class StudentDashboard extends Component {
   state = {
@@ -20,7 +22,7 @@ class StudentDashboard extends Component {
   };
 
   componentDidMount() {
-    this.props.loadUser(this.props.history);
+    this.props.loadUserStudent(this.props.history);
     const jwt = getJWT();
     if (jwt) {
       this.setState({ isLoading: true });
@@ -64,7 +66,7 @@ class StudentDashboard extends Component {
 
   render() {
     if (this.state.isLoading) {
-      return <p>Loading...</p>;
+      return <Spinner style={{ width: "3rem", height: "3rem" }} />;
     }
     return (
       <React.Fragment>
@@ -123,35 +125,36 @@ class StudentDashboard extends Component {
               </ul>
             </div>
             {/* Loader or content */}
-            {/* {!this.state.companies || !this.state.jobs ? (
-              <div>Loading...</div>
-            ) : ( */}
-            <div className="col-sm-12 col-md-9">
-              <div className="row">
-                {this.state.selectedMenu === "Profile" && (
-                  <StudentProfileView profile={this.state.profile} />
-                )}
-                {this.state.selectedMenu === "Companies" &&
-                  this.state.companies.map(company => (
-                    <CompaniesView key={company._id} company={company} />
-                  ))}
-                {this.state.selectedMenu === "Jobs" &&
-                  this.state.jobs.map(job => (
-                    <JobsView key={job._id} job={job} applyModal={true} />
-                  ))}
-                {this.state.selectedMenu === "AppliedJobs" &&
-                  (this.state.appliedJobs.length === 1 ? (
-                    <AppliedJobsView
-                      key={this.state.appliedJobs._id}
-                      job={this.state.appliedJobs[0]}
-                    />
-                  ) : (
-                    this.state.appliedJobs.map(apjob => (
-                      <AppliedJobsView key={apjob._id} job={apjob} />
-                    ))
-                  ))}
+            {!this.state.companies || !this.state.jobs ? (
+              <Spinner style={{ width: "3rem", height: "3rem" }} />
+            ) : (
+              <div className="col-sm-12 col-md-9">
+                <div className="row">
+                  {this.state.selectedMenu === "Profile" && (
+                    <StudentProfileView profile={this.state.profile} />
+                  )}
+                  {this.state.selectedMenu === "Companies" &&
+                    this.state.companies.map(company => (
+                      <CompaniesView key={company._id} company={company} />
+                    ))}
+                  {this.state.selectedMenu === "Jobs" &&
+                    this.state.jobs.map(job => (
+                      <JobsView key={job._id} job={job} applyModal={true} />
+                    ))}
+                  {this.state.selectedMenu === "AppliedJobs" &&
+                    (this.state.appliedJobs.length === 1 ? (
+                      <AppliedJobsView
+                        key={this.state.appliedJobs._id}
+                        job={this.state.appliedJobs[0]}
+                      />
+                    ) : (
+                      this.state.appliedJobs.map(apjob => (
+                        <AppliedJobsView key={apjob._id} job={apjob} />
+                      ))
+                    ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </React.Fragment>
@@ -165,5 +168,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loadUser }
+  { loadUserStudent }
 )(StudentDashboard);

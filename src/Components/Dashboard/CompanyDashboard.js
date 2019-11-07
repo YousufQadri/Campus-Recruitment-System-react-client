@@ -7,6 +7,9 @@ import StudentsView from "../Display/StudentsView";
 import JobApplicantView from "../Display/JobAppicantView";
 import CreateModal from "../CreateModal";
 
+import { connect } from "react-redux";
+import { loadUserCompany } from "../../store/Actions/authActions";
+
 class CompanyDashboard extends Component {
   state = {
     students: [],
@@ -18,6 +21,8 @@ class CompanyDashboard extends Component {
   };
 
   componentDidMount() {
+    this.props.loadUserCompany(this.props.history);
+
     const jwt = getJWT();
     if (jwt) {
       this.setState({ isLoading: true });
@@ -172,4 +177,11 @@ class CompanyDashboard extends Component {
   }
 }
 
-export default CompanyDashboard;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { loadUserCompany }
+)(CompanyDashboard);
