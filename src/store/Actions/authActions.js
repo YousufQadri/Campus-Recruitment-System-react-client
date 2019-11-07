@@ -12,8 +12,8 @@ import {
 } from "./types";
 import { returnErrors } from "./errorActions";
 
-// Check token & load user
-export const loadUser = () => (dispatch, getState) => {
+// Check student token & load user
+export const loadUserStudent = () => (dispatch, getState) => {
   // User loading
   dispatch({ type: USER_LOADING });
 
@@ -21,6 +21,33 @@ export const loadUser = () => (dispatch, getState) => {
 
   axios
     .get("http://localhost:5000/api/v1/student/auth", {
+      headers: {
+        "x-auth-token": token
+      }
+    })
+    .then(res =>
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data
+      })
+    )
+    .catch(err => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: AUTH_ERROR
+      });
+    });
+};
+
+// Check company token & load user
+export const loadUserCompany = () => (dispatch, getState) => {
+  // User loading
+  dispatch({ type: USER_LOADING });
+
+  const token = getState().auth.token;
+
+  axios
+    .get("http://localhost:5000/api/v1/company/auth", {
       headers: {
         "x-auth-token": token
       }
