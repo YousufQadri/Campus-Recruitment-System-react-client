@@ -63,6 +63,7 @@ class Login extends Component {
         password
       };
       this.props.companyLogin(data, this.props.history);
+      this.setState({ email: "", password: "" });
     } else {
       console.log("Fill all fields");
     }
