@@ -1,6 +1,7 @@
 import React from "react";
 import { getJWT } from "../helpers/jwt";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 class CreateModal extends React.Component {
   state = {
@@ -31,8 +32,22 @@ class CreateModal extends React.Component {
         })
         .then(res => {
           console.log("new job: ", res.data);
+          Swal.fire({
+            icon: "success",
+            title: "Created successfull",
+            text: res.data.message
+          });
+          this.setState({ title: "", description: "" });
         })
-        .catch(error => console.log("Error: ", error.response.data));
+        .catch(error => {
+          console.log("Error: ", error.response.data);
+          Swal.fire({
+            icon: "error",
+            title: "Oops... Something went wrong",
+            text: error.response.data.message
+          });
+          this.setState({ title: "", description: "" });
+        });
     } else {
       console.log("no token found");
     }

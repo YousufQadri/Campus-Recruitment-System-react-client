@@ -9,7 +9,10 @@ const JobsView = ({ job, applyModal }) => {
           <h4>{job.jobTitle}</h4>
         </div>
         <div className="card-body">
-          <h5 className="card-title">{job.description}</h5>
+          <h5 className="card-title">
+            <strong>Description: </strong>
+            {job.description}
+          </h5>
           {applyModal ? <ApplyModal label="Apply now" job={job} /> : null}
         </div>
       </div>

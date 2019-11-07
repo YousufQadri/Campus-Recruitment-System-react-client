@@ -34,7 +34,7 @@ class ApplyModal extends React.Component {
           console.log("Application: ", res.data);
           Swal.fire({
             icon: "success",
-            title: "Applied",
+            title: "Applied successfully",
             text: res.data.message
           });
           this.toggle();
@@ -43,7 +43,7 @@ class ApplyModal extends React.Component {
         .catch(error => {
           Swal.fire({
             icon: "error",
-            title: "Oops...",
+            title: "Oops... Something went wrong",
             text: error.response.data.message
           });
           this.toggle();

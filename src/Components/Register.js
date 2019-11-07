@@ -14,6 +14,8 @@ import {
   Alert
 } from "reactstrap";
 
+import Swal from "sweetalert2";
+
 class Register extends Component {
   state = {
     studentName: "",
@@ -30,9 +32,9 @@ class Register extends Component {
     activeTab: 1
   };
 
-  componentDidUpdate() {
-    setTimeout(() => this.setState({ message: "" }), 10000);
-  }
+  // componentDidUpdate() {
+  //   setTimeout(() => this.setState({ message: "" }), 10000);
+  // }
 
   onChange = e => {
     this.setState({
@@ -79,6 +81,11 @@ class Register extends Component {
             password: "",
             qualification: "",
             cgpa: undefined
+          });
+          Swal.fire({
+            icon: "success",
+            title: "Registered successfully!",
+            text: res.data.message
           });
           this.props.history.push("/");
         })
@@ -129,6 +136,11 @@ class Register extends Component {
             description: "",
             contactNo: undefined,
             website: ""
+          });
+          Swal.fire({
+            icon: "success",
+            title: "Registered successfully!",
+            text: res.data.message
           });
           this.props.history.push("/");
         })
