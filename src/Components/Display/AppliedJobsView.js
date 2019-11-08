@@ -15,7 +15,7 @@ const AppliedJobsView = ({ job }) => {
         </div>
         <div className="card-body text-dark">
           <h5 className="card-title">
-            <strong>Company: </strong>
+            <strong>Company: {job.companyId.companyName}</strong>
             {/* {job.companyId.companyName} */}
           </h5>
           <h5 className="card-text">
