@@ -66,6 +66,33 @@ export const loadUserCompany = () => (dispatch, getState) => {
     });
 };
 
+// Check admin token & load user
+export const loadUserAdmin = () => (dispatch, getState) => {
+  // User loading
+  dispatch({ type: USER_LOADING });
+
+  const token = getState().auth.token;
+
+  axios
+    .get("http://localhost:5000/api/v1/admin/auth", {
+      headers: {
+        "x-auth-token": token
+      }
+    })
+    .then(res =>
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data
+      })
+    )
+    .catch(err => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: AUTH_ERROR
+      });
+    });
+};
+
 // Student Register
 // export const studentRegister = (data, history) => dispatch => {
 //   dispatch({ type: USER_LOADING });
@@ -142,6 +169,29 @@ export const companyLogin = ({ email, password }, history) => dispatch => {
       dispatch({ type: CLEAR_ERRORS });
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
       history.push("/Company-dashboard");
+    })
+    .catch(error => {
+      dispatch(
+        returnErrors(error.response.data.message, error.response.data.success)
+      );
+      dispatch({ type: LOGIN_FAIL });
+      console.log("Error: ", error.response);
+    });
+};
+
+// Admin Login
+export const adminLogin = ({ email, password }, history) => dispatch => {
+  dispatch({ type: USER_LOADING });
+  axios
+    .post("http://localhost:5000/api/v1/admin/login", {
+      email,
+      password
+    })
+    .then(res => {
+      console.log("response from action: ", res.data);
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch({ type: LOGIN_SUCCESS, payload: res.data });
+      history.push("/admin-dashboard");
     })
     .catch(error => {
       dispatch(
