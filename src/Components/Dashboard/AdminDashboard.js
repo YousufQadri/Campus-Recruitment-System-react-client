@@ -13,8 +13,7 @@ class AdminDashboard extends Component {
   state = {
     students: [],
     companies: [],
-    applicants: [],
-    profile: [],
+    jobs: [],
     selectedMenu: "Profile",
     isLoading: false
   };
@@ -117,7 +116,7 @@ class AdminDashboard extends Component {
                 >
                   Jobs
                   <span className="badge badge-primary badge-pill">
-                    {/* {this.state.jobs.length} */}
+                    {this.state.jobs.length}
                   </span>
                 </li>
               </ul>
