@@ -8,6 +8,8 @@ import { getJWT } from "./helpers/jwt";
 import AuthComponent from "./Components/AuthComponent";
 import StudentDashboard from "./Components/Dashboard/StudentDashboard";
 import CompanyDashboard from "./Components/Dashboard/CompanyDashboard";
+import AdminLogin from "./Components/AdminLogin";
+import AdminDashboard from "./Components/Dashboard/AdminDashboard";
 
 class App extends React.Component {
   state = { isLoggedIn: false };
@@ -31,6 +33,12 @@ class App extends React.Component {
               path="/company-dashboard"
               component={CompanyDashboard}
             />
+            <AuthComponent
+              exact
+              path="/admin-dashboard"
+              component={AdminDashboard}
+            />
+            <Route path="/admin" exact component={AdminLogin}></Route>
           </Switch>
         </Router>
       </div>
